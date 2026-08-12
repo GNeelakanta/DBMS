@@ -1,4 +1,4 @@
-CREATE DATABASE BookMyShow
+create database BookMyShow
 
 CREATE TABLE Users
 (
@@ -8,11 +8,6 @@ Phone_No INT NOT NULL,
 Email VARCHAR(50),
 Age INT 
 )
-select * from Users 
-select * from Movies
-select * from Theater
-select * from Event
-select * from  Payment
 
 INSERT INTO Users VALUES(6,'Ram',78920410,'qwert123@gmail.com',19)
 INSERT INTO Users VALUES(3,'Krishna',63012786,'krishna567@gmail.com',43)
@@ -21,9 +16,11 @@ INSERT INTO Users VALUES(15,'Bala',9105032,'Bala781@gmail.com',18)
 INSERT INTO Users VALUES(18,'Neelakanta',91009919,'Blueneck55@gmail.com',23)
 INSERT INTO Users VALUES(21,'Likitha',89191278,'likki12@gmail.com',36)
 INSERT INTO Users VALUES(73,'Praveen',99899402,'praveen71@gmail.com',19)
-INSERT INTO Users VALUES(54,'Swatha',75418392,'swaraj123@gmail.com',38)
-INSERT INTO Users VALUES(32,'Harsha',781023,'harshavardhan@gmail.com',45)
+INSERT INTO Users VALUES(54,'Gunnadeep',75418392,'gunnadeep123@gmail.com',38)
+INSERT INTO Users VALUES(32,'Niranjan',781023,'niranjanvarma@gmail.com',45)
 INSERT INTO Users VALUES(39,'Rani',99131923,'rani78@gmail.com',17)
+
+select * from Users
 
 CREATE TABLE Movies
 (
@@ -45,6 +42,9 @@ INSERT INTO Movies VALUES('Mirchi',180,'Telugu',11,4)
 INSERT INTO Movies VALUES('Spider Man',210,'English',26,5)
 INSERT INTO Movies VALUES('Tourist Family',220,'Tamil',54,3)
 
+select * from Movies
+
+
 CREATE TABLE Theater
 (
 Theater_Name  VARCHAR(50),
@@ -65,6 +65,9 @@ INSERT INTO Theater VALUES('Padma Picture',308,1,'Chennai',9989981)
 INSERT INTO Theater VALUES('Sangam',501,4,'Mumbai',994211)
 INSERT INTO Theater VALUES('JVM Cinemas',912,1,'Coimbatore',891989)
 
+select * from Theater
+
+
 CREATE TABLE Event
 (
 Event_Id   INT PRIMARY KEY,
@@ -79,6 +82,9 @@ INSERT INTO Event VALUES(81,'Grin club','Dance','2026-06-12','Chennai')
 INSERT INTO Event VALUES(95,'Magic Beans Workshop','Study','2025-11-21','Mumbai')
 INSERT INTO Event VALUES(64,'New Year Celebrations','Enjoyment','2026-01-01','Hydrabad')
 
+select * from Event
+
+
 CREATE TABLE Payment
 (
 Payment_Id  INT PRIMARY KEY,
@@ -90,4 +96,7 @@ Payment_Date DATE
 INSERT INTO Payment VALUES(7921,'UPI',9000,'2026-11-08')
 INSERT INTO Payment VALUES(5622,'Debit',5100,'2025-08-28')
 INSERT INTO Payment VALUES(3219,'Card',34200,'2026-04-12')
+
+select * from Payment
+
 
