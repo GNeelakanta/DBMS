@@ -1,0 +1,383 @@
+CREATE database RestaurantDatabase
+
+CREATE TABLE restaurant(
+R_ID      INT              PRIMARY KEY,
+R_Name    VARCHAR(50)      NOT NULL,
+ADDRESS   VARCHAR(200)     NOT NULL,
+contact   VARCHAR(15)      UNIQUE NOT NULL,
+Type      VARCHAR(15)      NOT NULL,
+Rating    DECIMAL(6,1)     CHECK(Rating<=5)
+)
+
+DROP TABLE restaurant
+
+SELECT * FROM restaurant
+
+INSERT INTO restaurant VALUES(5, 'Bilal', 'Rangampeta', '9878959540','Veg', 4.5)
+INSERT INTO restaurant VALUES(4, 'Ismali', 'TPT', '9878959785','Non - Veg', 3.3)
+INSERT INTO restaurant VALUES(3, 'Minerva', 'Hyd', '9878959542','Both', 4.5)
+INSERT INTO restaurant VALUES(101, 'Miado', 'Peru', '9878959541','veg', 5)
+INSERT INTO restaurant VALUES(107, 'Taj', 'Guntur', '9878959549','Non-Veg', 4.5)
+
+
+CREATE TABLE customer(
+U_ID           INT             PRIMARY KEY,
+Name           VARCHAR(50)     NOT NULL,
+Phone_Number   VARCHAR(15)     UNIQUE NOT NULL,
+Email          VARCHAR(100)    UNIQUE null,
+ADDRESS        VARCHAR(100)    NOT NULL
+)
+
+DROP TABLE customer
+
+SELECT * FROM customer
+
+INSERT INTO customer VALUES(101, 'Ballu', '9874561230', 'ballu.659@gamil.com', 'Ongole')
+INSERT INTO customer VALUES(102, 'Vivek', '9874561231', 'vivek.659@gamil.com', 'Banglore')
+INSERT INTO customer VALUES(103, 'Sanu', '9874561232', 'sanu.659@gamil.com', 'Prakasam')
+INSERT INTO customer VALUES(104, 'Roja', '9874561233', 'roja.659@gamil.com', 'Bombay')
+INSERT INTO customer VALUES(210, 'Sita', '9874561234', 'sita.659@gamil.com', 'Varanasi')
+INSERT INTO customer VALUES(106, 'lallu', '9874561235', 'lallu.659@gamil.com', 'TPT')
+INSERT INTO customer VALUES(107, 'veera', '9874561236', 'veera.659@gamil.com', 'Vijayawada')
+INSERT INTO customer VALUES(108, 'praveen', '9874561237', 'praveen.659@gamil.com', 'Eluru')
+INSERT INTO customer VALUES(109, 'srihari', '9874561238', 'srihari.659@gamil.com', 'Chennai')
+INSERT INTO customer VALUES(100, 'Harshith', '9874561220', 'harshith.659@gamil.com', 'Madars')
+
+CREATE TABLE Food(
+F_ID       INT           PRIMARY KEY,
+F_Name     VARCHAR(100)  NOT NULL,
+Type       VARCHAR(15)   NOT NULL,
+Quantity   VARCHAR(20)   null,
+Price      INT           CHECK(price>0) NOT NULL,
+R_ID       INT,          foreign key(R_ID) references restaurant(R_ID)
+)
+
+DROP TABLE Food
+SELECT * FROM Food
+
+INSERT INTO food VALUES(20, 'Biriyani', 'Non-Veg', '500 gm', 550, 3)
+INSERT INTO food VALUES(21, 'Curd Rice', 'Veg', '500 gm', 120, 101)
+INSERT INTO food VALUES(22, 'Burger', 'veg', '550 gm', 2550, 107)
+INSERT INTO food VALUES(305, 'South Indian Meals', 'Veg', null, 399, 107)
+INSERT INTO food VALUES(23, 'Chicken Thali', 'FastFood', '1500 gm', 250, 4)
+INSERT INTO food VALUES(24, 'Butter Chicken', 'Non-Veg', '1000 gm', 550, 101)
+INSERT INTO food VALUES(25, 'Dosa', 'Veg', 'pizza', 80, 3)
+INSERT INTO food VALUES(26, 'Paneer Tikka Masala', 'FastFood', '1000 gm', 250, 5)
+INSERT INTO food VALUES(27, 'Nellore Chepalu Pulusu', 'Non-Veg', '750 gm', 600, 3)
+INSERT INTO food VALUES(28, 'Bisi Bele Bhath', 'Veg', null, 420, 107)
+INSERT INTO food VALUES(29, 'Ragi Mudde with Soppu Saaru', 'Veg', null, 300, 3)
+
+
+
+CREATE TABLE Staff(
+Staff_ID       INT           PRIMARY KEY,
+Name           VARCHAR(100)  NOT NULL,
+Orders         INT,
+Position       VARCHAR(50)   NOT NULL,
+Rating         INT,
+salary         VARCHAR(10),
+R_ID           INT           foreign key (R_ID) references restaurant (R_ID)
+)
+
+DROP TABLE Staff
+SELECT * FROM Staff
+
+INSERT INTO Staff VALUES(99, 'Raju', 201, 'Waiter', 4.6, '15k', 2)
+INSERT INTO Staff VALUES(100, 'sreenu', 5, 'Cheif',5, '20k', 5)
+INSERT INTO Staff VALUES(101, 'Rajesh', 255, 'Cashier',2, '15k', 1)
+INSERT INTO Staff VALUES(102, 'Suresh', 30, 'Cleaner', 1, '10k', 3)
+INSERT INTO Staff VALUES(103, 'Peeru', 22, 'Waiter',1, '15k', 2)
+INSERT INTO Staff VALUES(104, 'Hemanth', 223, 'Delivery Executive',4.6, '20k', 2)
+INSERT INTO Staff VALUES(105, 'Ramesh', 5, 'Receptionist',3, '20k', 4)
+INSERT INTO Staff VALUES(106, 'Ramana', 5, 'Manager',2, '35k', 2)
+INSERT INTO Staff VALUES(107, 'Venkat', 5, 'Waiter',4, '15k', 3)
+INSERT INTO Staff VALUES(108, 'Ramu', 222, 'Manager',4.5, '35k', 2)
+
+
+
+CREATE TABLE Payment(
+Payment_ID       INT    PRIMARY KEY,
+Amount           INT    NOT NULL,
+Payment_type     VARCHAR(50) NOT NULL CHECK(Payment_type In('UPI', 'Cash', 'Card')),
+Payment_Date     date,
+Discount         INT,
+U_ID             INT,   foreign key(U_ID) references customer(U_ID)
+)
+
+DROP TABLE Payment
+
+SELECT * FROM Payment
+
+INSERT INTO Payment VALUES(505, 1500, 'Cash', '2026-09-12', 10, 101)
+INSERT INTO Payment VALUES(12, 1000, 'UPI', '2026-08-12', 10, 102)
+INSERT INTO Payment VALUES(13, 500, 'Card', '2027-08-12', 10, 103)
+INSERT INTO Payment VALUES(14, 2000, 'UPI', '2026-08-12', 10, 104)
+INSERT INTO Payment VALUES(15, 1550, 'Cash', '2026-08-30', 10, 210)
+INSERT INTO Payment VALUES(16, 2200, 'UPI', '2027-06-12', 10, 106)
+INSERT INTO Payment VALUES(501, 2256, 'Cash', '2026-08-12', 10, 107)
+INSERT INTO Payment VALUES(18, 3694, 'Card', '2026-09-12', 10, 108)
+INSERT INTO Payment VALUES(309, 999, 'UPI', '2026-07-13', 10, 109)
+INSERT INTO Payment VALUES(20, 1500, 'Cash', '2026-08-12', 10, 100)
+
+
+SELECT TABLE_NAME
+FROM INFORMATION_SCHEMA.TABLES
+WHERE TABLE_TYPE = 'BASE TABLE'
+
+SELECT * FROM restaurant
+SELECT * FROM customer
+SELECT * FROM Food
+SELECT * FROM Staff
+SELECT * FROM Payment
+
+
+-- Queris
+UPDATE restaurant
+SET ADDRESS = 'Tirupathi'
+WHERE R_ID = 101
+
+output:
+Minerva	Hyd	3	9878959542	Both	4.5
+Ismali	TPT	4	9878959785	Non - Veg	3.3
+Bilal	Rangampeta	5	9878959540	Veg	4.5
+Miado	Tirupathi	101	9878959541	veg	5.0
+Taj	Guntur	107	9878959549	Non-Veg	4.5
+
+
+UPDATE restaurant
+SET Rating = 4.5
+WHERE R_Name = 'Taj'
+
+output:
+3	Minerva	Hyd	9878959542	Both	4.5
+4	Ismali	TPT	9878959785	Non - Veg	3.3
+5	Bilal	Rangampeta	9878959540	Veg	4.5
+101	Miado	Tirupathi	9878959541	veg	5.0
+107	Taj	Guntur	9878959549	Non-Veg	4.5
+
+
+UPDATE customer
+SET Email = 'praveen@email.com',
+    ADDRESS = 'Nandyala'
+WHERE Name = 'Praveen'
+
+output:
+100	Harshith	9874561220	harshith.659@gamil.com	Madars
+101	Ballu	9874561230	ballu.659@gamil.com	Ongole
+102	Vivek	9874561231	vivek.659@gamil.com	Banglore
+103	Sanu	9874561232	sanu.659@gamil.com	Prakasam
+104	Roja	9874561233	roja.659@gamil.com	Bombay
+106	lallu	9874561235	lallu.659@gamil.com	TPT
+107	veera	9874561236	veera.659@gamil.com	Vijayawada
+108	praveen	9874561237	praveen@email.com	Nandyala
+109	srihari	9874561238	srihari.659@gamil.com	Chennai
+210	Sita	9874561234	sita.659@gamil.com	Varanasi
+
+
+UPDATE Food
+SET Quantity = '10'
+WHERE F_ID = 305 OR Price = 399
+
+output:
+100	Harshith	9874561220	harshith.659@gamil.com	Madars
+101	Ballu	9874561230	ballu.659@gamil.com	Ongole
+102	Vivek	9874561231	vivek.659@gamil.com	Banglore
+103	Sanu	9874561232	sanu.659@gamil.com	Prakasam
+104	Roja	9874561233	roja.659@gamil.com	Bombay
+106	lallu	9874561235	lallu.659@gamil.com	TPT
+107	veera	9874561236	veera.659@gamil.com	Vijayawada
+108	praveen	9874561237	praveen@email.com	Nandyala
+109	srihari	9874561238	srihari.659@gamil.com	Chennai
+210	Sita	9874561234	sita.659@gamil.com	Varanasi
+
+
+UPDATE Payment
+SET Discount = 15
+WHERE Payment_ID = 501
+
+output:
+12	1000	UPI	2026-08-12	10	102
+13	500	Card	2027-08-12	10	103
+14	2000	UPI	2026-08-12	10	104
+15	1550	Cash	2026-08-30	10	210
+16	2200	UPI	2027-06-12	10	106
+18	3694	Card	2026-09-12	10	108
+20	1500	Cash	2026-08-12	10	100
+309	999	UPI	2026-07-13	10	109
+501	2256	Cash	2026-08-12	15	107
+505	1500	Cash	2026-09-12	10	101
+
+
+UPDATE Food
+SET Type = 'Fast Food'
+WHERE F_Name = 'Pizza'
+
+output:
+20	Biriyani	Non-Veg	500 gm	550	3
+21	Curd Rice	Veg	500 gm	120	101
+22	Burger	veg	550 gm	2550	107
+23	Chicken Thali	FastFood	1500 gm	250	4
+24	Butter Chicken	Non-Veg	1000 gm	550	101
+25	Dosa	Veg	pizza	80	3
+26	Paneer Tikka Masala	FastFood	1000 gm	250	5
+27	Nellore Chepalu Pulusu	Non-Veg	750 gm	600	3
+28	Bisi Bele Bhath	Veg	NULL	420	107
+29	Ragi Mudde with Soppu Saaru	Veg	NULL	300	3
+305	South Indian Meals	Veg	10	399	107
+
+UPDATE restaurant
+SET R_Name = 'Veg'
+WHERE R_ID = 107
+
+output:
+3	Minerva	Hyd	9878959542	Both	4.5
+4	Ismali	TPT	9878959785	Non - Veg	3.3
+5	Bilal	Rangampeta	9878959540	Veg	4.5
+101	Miado	Tirupathi	9878959541	veg	5.0
+107	Veg	Guntur	9878959549	Non-Veg	4.5
+
+
+UPDATE Staff
+SET salary = 29000
+WHERE R_ID IN (
+    SELECT R_ID FROM restaurant WHERE Rating > 4.6
+) AND Orders > 200
+
+output:
+100	sreenu	5	Cheif	5	20k	5
+102	Suresh	30	Cleaner	1	10k	3
+105	Ramesh	5	Receptionist	3	20k	4
+107	Venkat	5	Waiter	4	15k	3
+
+UPDATE Payment
+SET Amount = 1100,
+    Discount = 20
+WHERE Payment_ID = 309
+
+output:
+12	1000	UPI	2026-08-12	10	102
+13	500	Card	2027-08-12	10	103
+14	2000	UPI	2026-08-12	10	104
+15	1550	Cash	2026-08-30	10	210
+16	2200	UPI	2027-06-12	10	106
+18	3694	Card	2026-09-12	10	108
+20	1500	Cash	2026-08-12	10	100
+309	1100	UPI	2026-07-13	20	109
+501	2256	Cash	2026-08-12	15	107
+505	1500	Cash	2026-09-12	10	101
+
+DELETE FROM Payment
+WHERE Payment_ID = 505 AND Payment_type = 'Cash'
+
+output:
+12	1000	UPI	2026-08-12	10	102
+13	500	Card	2027-08-12	10	103
+14	2000	UPI	2026-08-12	10	104
+15	1550	Cash	2026-08-30	10	210
+16	2200	UPI	2027-06-12	10	106
+18	3694	Card	2026-09-12	10	108
+20	1500	Cash	2026-08-12	10	100
+309	1100	UPI	2026-07-13	20	109
+501	2256	Cash	2026-08-12	15	107
+
+
+DELETE FROM Food
+WHERE F_Name = 'Burger'
+
+output:
+20	Biriyani	Non-Veg	500 gm	550	3
+21	Curd Rice	Veg	500 gm	120	101
+23	Chicken Thali	FastFood	1500 gm	250	4
+24	Butter Chicken	Non-Veg	1000 gm	550	101
+25	Dosa	Veg	pizza	80	3
+26	Paneer Tikka Masala	FastFood	1000 gm	250	5
+27	Nellore Chepalu Pulusu	Non-Veg	750 gm	600	3
+28	Bisi Bele Bhath	Veg	NULL	420	107
+29	Ragi Mudde with Soppu Saaru	Veg	NULL	300	3
+305	South Indian Meals	Veg	10	399	107
+
+
+DELETE FROM Staff
+WHERE Name = 'Suresh' AND R_ID IN (
+    SELECT R_ID FROM restaurant WHERE Rating < 2
+)
+
+output:
+100	sreenu	5	Cheif	5	20k	5
+102	Suresh	30	Cleaner	1	10k	3
+105	Ramesh	5	Receptionist	3	20k	4
+107	Venkat	5	Waiter	4	15k	3
+
+
+DELETE FROM Staff
+WHERE Orders < 15 OR R_ID IN (
+    SELECT R_ID FROM restaurant WHERE Rating < 2
+)
+
+output:
+102	Suresh	30	Cleaner	1	10k	3
+
+SELECT * FROM restaurant
+WHERE R_Name = 'Veg'
+
+output:
+107	Veg	Guntur	9878959549	Non-Veg	4.5
+
+SELECT contact FROM restaurant
+WHERE ADDRESS = 'Rangampeta'
+
+output:
+9878959540
+
+SELECT * FROM restaurant
+WHERE Rating = 4.5
+
+output:
+3	Minerva	Hyd	9878959542	Both	4.5
+5	Bilal	Rangampeta	9878959540	Veg	4.5
+107	Veg	Guntur	9878959549	Non-Veg	4.5
+
+SELECT Email FROM customer
+WHERE U_ID = 210
+
+output:
+sita.659@gamil.com
+
+SELECT F_Name, Price, Quantity FROM Food
+
+output:
+Biriyani	550	500 gm
+Curd Rice	120	500 gm
+Chicken Thali	250	1500 gm
+Butter Chicken	550	1000 gm
+Dosa	80	pizza
+Paneer Tikka Masala	250	1000 gm
+Nellore Chepalu Pulusu	600	750 gm
+Bisi Bele Bhath	420	NULL
+Ragi Mudde with Soppu Saaru	300	NULL
+South Indian Meals	399	10
+
+SELECT * FROM Food
+WHERE Type = 'Fast Food' AND Price > 299
+
+
+SELECT Payment_type FROM Payment
+WHERE Payment_ID = 505
+
+output:
+UPI
+Card
+UPI
+Cash
+UPI
+Card
+Cash
+UPI
+Cash
+
+
+SELECT * FROM restaurant
+SELECT * FROM customer
+SELECT * FROM Food
+SELECT * FROM Staff
+SELECT * FROM Payment
