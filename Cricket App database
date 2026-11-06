@@ -1,0 +1,335 @@
+CREATE DATABASE CricketApp
+
+Create table Player (
+    Player_ID   INT PRIMARY KEY,
+    Player_Name VARCHAR(50),
+    Age         INT,
+    Gender      CHAR(1) CHECK (Gender IN ('M','F')),
+    Role        VARCHAR(30),
+    Country     VARCHAR(50)
+)
+
+INSERT INTO Player VALUES(111, 'Virat Kohli', 37, 'M', 'Batsman', 'India')
+INSERT INTO Player VALUES(112, 'Rohit Sharma', 39, 'M', 'Batsman', 'India')
+INSERT INTO Player VALUES(113, 'Jasprit Bumrah', 32, 'M', 'Bowler', 'India')
+INSERT INTO Player VALUES(114, 'Ravindra Jadeja', 37, 'M', 'All-Rounder', 'India')
+INSERT INTO Player VALUES(115, 'Will Jacks', 37, 'M', 'Batsman', 'England')
+INSERT INTO Player VALUES(116, 'Pat Cummins', 36, 'M', 'Bowler', 'Australia')
+INSERT INTO Player VALUES(117, 'Joe Root', 35, 'M', 'Batsman', 'England')
+INSERT INTO Player VALUES(118, 'Ben Stokes', 35, 'M', 'All-Rounder', 'England')
+INSERT INTO Player VALUES(119, 'Rakshid Khan', 31, 'M', 'Bowler', 'Afghanistan')
+INSERT INTO Player VALUES(120, 'Nisanka', 26, 'M', 'Bowler', 'Srilanka')
+
+Select * from Player
+drop table Player
+
+Create table Team (
+    Team_ID   INT PRIMARY KEY,
+    Team_Name VARCHAR(50),
+    Country   VARCHAR(50),
+    Coach     VARCHAR(50),
+    Ranking   INT
+)
+
+INSERT INTO Team VALUES(1, 'India', 'India', 'Gautam Gambhir', 1)
+INSERT INTO Team VALUES(2, 'Australia', 'Australia', 'Andrew McDonald', 2)
+INSERT INTO Team VALUES(3, 'England', 'England', 'Will Jacks', 3)
+INSERT INTO Team VALUES(4, 'Pakistan', 'Pakistan', 'Mike Hesson', 4)
+INSERT INTO Team VALUES(5, 'New Zealand', 'New Zealand', 'Gary Stead', 5)
+INSERT INTO Team VALUES(6, 'South Africa', 'South Africa', 'Shukri Conrad', 6)
+INSERT INTO Team VALUES(7, 'Afghanisthan', 'Afghanisthan', 'Rakshid Khan', 1)
+INSERT INTO Team VALUES(8, 'Ireland', 'Ireland', 'Andrew Salt', 2)
+INSERT INTO Team VALUES(9, 'Bangladesh', 'Bangladesh', 'Markram', 3)
+INSERT INTO Team VALUES(10, 'Zimbabwe', 'Zimbabwe', 'Srijian', 4)
+
+Select * from Team
+drop table Team
+
+Create table Matches (
+    Match_ID   INT PRIMARY KEY,
+    Team1_ID   INT,
+    Team2_ID   INT,
+    Match_Date DATE,
+    Venue      VARCHAR(100),
+    Match_Type VARCHAR(30),
+    Winner_ID  INT,
+    FOREIGN KEY (Team1_ID) REFERENCES TEAM(Team_ID),
+    FOREIGN KEY (Team2_ID) REFERENCES TEAM(Team_ID),
+    FOREIGN KEY (Winner_ID) REFERENCES TEAM(Team_ID)
+)
+
+INSERT INTO Matches VALUES(131, 1, 2, '2026-01-15', 'visakhapatnam', 'ODI', 1)
+INSERT INTO Matches VALUES(132, 3, 4, '2026-02-10', 'London', 'T20', 3)
+INSERT INTO Matches VALUES(133, 1, 3, '2026-03-05', 'Chennai', 'Test', 1)
+INSERT INTO Matches VALUES(134, 2, 5, '2026-04-12', 'Srilana', 'ODI', 2)
+INSERT INTO Matches VALUES(135, 4, 6, '2026-05-20', 'Lakeum', 'T20', 4)
+INSERT INTO Matches VALUES(136, 1, 5, '2026-06-15', 'Bengaluru', 'ODI', 1)
+INSERT INTO Matches VALUES(137, 2, 3, '2026-07-10', 'Mumbai', 'Test', 2)
+INSERT INTO Matches VALUES(138, 5, 6, '2026-07-25', 'Ameerpet', 'T20', 5)
+INSERT INTO Matches VALUES(139, 1, 4, '2026-08-05', 'Delhi', 'ODI', 1)
+INSERT INTO Matches VALUES(140, 3, 5, '2026-08-20', 'Hyderabad', 'T20', 3)
+
+Select * from Matches
+drop table Matches
+
+Create table Player_Performance (
+    Performance_ID INT PRIMARY KEY,
+    Match_ID       INT,
+    Player_ID      INT,
+    Runs           INT,
+    Wickets        INT,
+    Catches        INT,
+    FOREIGN KEY (Match_ID) REFERENCES Matches(Match_ID),
+    FOREIGN KEY (Player_ID) REFERENCES Player(Player_ID)
+)
+
+INSERT INTO Player_Performance VALUES(151, 131, 111, 85, 0, 2)
+INSERT INTO Player_Performance VALUES(152, 132, 112, 72, 0, 1)
+INSERT INTO Player_Performance VALUES(153, 133, 113, 15, 4, 1)
+INSERT INTO Player_Performance VALUES(154, 134, 114, 91, 0, 2)
+INSERT INTO Player_Performance VALUES(155, 135, 115, 10, 3, 0)
+INSERT INTO Player_Performance VALUES(156, 136, 116, 78, 0, 1)
+INSERT INTO Player_Performance VALUES(157, 137, 117, 45, 2, 2)
+INSERT INTO Player_Performance VALUES(158, 138, 118, 65, 0, 1)
+INSERT INTO Player_Performance VALUES(159, 139, 119, 12, 3, 0)
+INSERT INTO Player_Performance VALUES(160, 140, 120, 25, 1, 3)
+
+Select * from Player_Performance
+drop table Player_Performance
+
+
+Create table Match_Offical (
+    Official_ID   INT PRIMARY KEY,
+    Official_Name VARCHAR(50),
+    Role          VARCHAR(30),
+    Country       VARCHAR(50),
+    Match_ID      INT,
+    FOREIGN KEY (Match_ID) REFERENCES Matches(Match_ID)
+)
+
+INSERT INTO Match_Offical VALUES(171, 'Babu Mohan', 'Umpire', 'England', 131)
+INSERT INTO Match_Offical VALUES(172, 'Shyam Kumar', 'Umpire', 'Sri Lanka', 132)
+INSERT INTO Match_Offical VALUES(173, 'Praveen Paul', 'Umpire', 'Australia', 133)
+INSERT INTO Match_Offical VALUES(174, 'Kalyan Ram', 'Umpire', 'India', 134)
+INSERT INTO Match_Offical VALUES(175, 'Aneesh', 'Umpire', 'Pakistan', 135)
+INSERT INTO Match_Offical VALUES(176, 'Balu kumar', 'Umpire', 'South Africa', 136)
+INSERT INTO Match_Offical VALUES(177, 'Munna', 'Umpire', 'New Zealand', 137)
+INSERT INTO Match_Offical VALUES(178, 'Raju', 'Umpire', 'England', 138)
+INSERT INTO Match_Offical VALUES(179, 'John', 'Umpire', 'Trinidad and Tobago', 139)
+INSERT INTO Match_Offical VALUES(180, 'Shanmukh', 'Umpire', 'Bangladesh', 140)
+
+Select * from Match_Offical
+drop table Match_Offical
+
+
+Create table Payment (
+    Payment_ID INT PRIMARY KEY,
+    Booking_ID INT,
+    Amount DECIMAL(10,2),
+    Payment_Mode VARCHAR(20),
+    Payment_Status VARCHAR(20)
+)
+
+INSERT INTO Payment VALUES(181, 1111, 1500.00, 'UPI', 'Success')
+INSERT INTO Payment VALUES(182, 1112, 2200.00, 'Card', 'Success')
+INSERT INTO Payment VALUES(183, 1113, 1000.00, 'UPI', 'Pending')
+INSERT INTO Payment VALUES(184, 1114, 3500.00, 'Net Banking', 'Success')
+INSERT INTO Payment VALUES(185, 1115, 1800.00, 'Card', 'Failed')
+INSERT INTO Payment VALUES(186, 1116, 2500.00, 'UPI', 'Success')
+INSERT INTO Payment VALUES(187, 1117, 1500.00, 'Credit Card', 'Failed')
+INSERT INTO Payment VALUES(188, 1118, 2200.00, 'Debit Card', 'Success')
+INSERT INTO Payment VALUES(189, 1119, 1000.00, 'UPI', 'Pending')
+INSERT INTO Payment VALUES(190, 1120, 3500.00, 'Net Banking', 'Success')
+
+Select * from Payment
+drop table Payment
+
+
+1.SELECT Player_Name, Country
+FROM Player
+WHERE Role = 'Batsman'
+AND Age > 25
+
+2.SELECT Player_Name
+FROM Player
+WHERE Country IN ('India', 'Australia')
+AND Age < 30
+
+3.SELECT * FROM Team
+WHERE Ranking <= 10
+AND Country = 'India'
+
+4.SELECT Match_ID, Venue, Match_Type
+FROM Matches
+WHERE Match_Type = 'T20'
+AND Venue = 'Hyderabad'
+
+5.SELECT Player_ID, Runs, Wickets
+FROM Player_Performance
+WHERE Runs > 50
+OR Wickets > 2
+
+6.SELECT DISTINCT Country
+FROM Player
+
+7.SELECT DISTINCT Match_Type
+FROM Matches
+
+8.SELECT Player_Name
+FROM Player
+WHERE Player_Name LIKE 'S%'
+AND Country = 'India'
+
+9.SELECT COUNT(*) AS Total_Players
+FROM Player
+WHERE Country = 'India'
+
+10.SELECT MAX(Runs) AS Maximum_Runs
+FROM Player_Performance
+
+11.SELECT AVG(Runs) AS Average_Runs
+FROM Player_Performance
+WHERE Runs > 20
+
+12.SELECT SUM(Wickets) AS Total_Wickets
+FROM Player_Performance
+
+13.SELECT
+    MIN(Catches) AS Minimum_Catches,
+    MAX(Catches) AS Maximum_Catches,
+    AVG(Catches) AS Average_Catches
+FROM Player_Performance
+
+14.SELECT Role, COUNT(*) AS Number_Of_Players
+FROM Player
+WHERE Age > 25
+GROUP BY Role
+
+15.SELECT Country, COUNT(*) AS Number_Of_Bowlers
+FROM Player
+WHERE Role = 'Bowler'
+GROUP BY Country
+
+16.SELECT Player_ID, SUM(Runs) AS Total_Runs
+FROM Player_Performance
+WHERE Runs > 20
+GROUP BY Player_ID
+
+17.SELECT Match_ID, SUM(Wickets) AS Total_Wickets
+FROM Player_Performance
+WHERE Wickets > 0
+GROUP BY Match_ID
+
+18.SELECT Country, COUNT(*) AS Number_Of_Players
+FROM Player
+GROUP BY Country
+HAVING COUNT(*) > 2
+
+19.SELECT Player_ID, SUM(Runs) AS Total_Runs
+FROM Player_Performance
+GROUP BY Player_ID
+HAVING SUM(Runs) > 100
+
+20.SELECT Match_ID, SUM(Wickets) AS Total_Wickets
+FROM Player_Performance
+GROUP BY Match_ID
+HAVING SUM(Wickets) > 3
+
+21.SELECT Player_ID, SUM(Runs) AS Total_Runs
+FROM Player_Performance
+GROUP BY Player_ID
+HAVING SUM(Runs) > 100
+ORDER BY Total_Runs DESC
+
+22.SELECT Player_ID, AVG(Runs) AS Average_Runs
+FROM Player_Performance
+GROUP BY Player_ID
+HAVING AVG(Runs) > 30
+ORDER BY Average_Runs ASC
+
+23.UPDATE Team
+SET Ranking = 1
+WHERE Team_ID = 111
+
+24.UPDATE Player
+SET Age = Age + 1
+WHERE Age > 30
+AND Role = 'Batsman'
+
+25.UPDATE Player_Performance
+SET Catches = Catches + 1
+WHERE Wickets > 2
+AND Catches < 3
+
+26.DELETE FROM Player
+WHERE Age > 45
+AND Country <> 'India'
+
+27.DELETE FROM Player_Performance
+WHERE Runs < 5
+AND Wickets = 0
+
+28.DELETE FROM Team
+WHERE Ranking > 15
+AND Country = 'India'
+
+29.SELECT P.Player_Name, P.Role, PP.Runs
+FROM Player P
+JOIN Player_Performance PP
+ON P.Player_ID = PP.Player_ID
+
+30.SELECT T.Team_Name, M.Match_Date, M.Venue
+FROM Team T
+JOIN Matches M
+ON T.Team_ID = M.Team1_ID
+
+31.SELECT P.Player_Name,
+       PP.Match_ID,
+       PP.Runs,
+       PP.Wickets
+FROM Player P
+JOIN Player_Performance PP
+ON P.Player_ID = PP.Player_ID
+WHERE PP.Runs > 50
+
+32.SELECT P.Player_Name,
+       M.Match_Date,
+       M.Venue,
+       PP.Runs
+FROM Player P
+JOIN Player_Performance PP
+ON P.Player_ID = PP.Player_ID
+JOIN Matches M
+ON PP.Match_ID = M.Match_ID
+
+33.SELECT P.Player_Name,
+       M.Match_Type,
+       M.Venue,
+       PP.Wickets
+FROM Player P
+JOIN Player_Performance PP
+ON P.Player_ID = PP.Player_ID
+JOIN Matches M
+ON PP.Match_ID = M.Match_ID
+WHERE PP.Wickets > 2
+
+34.SELECT P.Player_Name
+FROM Player P
+JOIN Player_Performance PP
+ON P.Player_ID = PP.Player_ID
+WHERE PP.Runs > (
+    SELECT AVG(Runs)
+    FROM Player_Performance
+)
+
+35.SELECT P.Player_Name,
+       SUM(PP.Runs) AS Total_Runs
+FROM Player P
+JOIN Player_Performance PP
+ON P.Player_ID = PP.Player_ID
+GROUP BY P.Player_ID, P.Player_Name
+HAVING SUM(PP.Runs) > (
+    SELECT SUM(Runs)
+    FROM Player_Performance
+    WHERE Player_ID = 111
+)
